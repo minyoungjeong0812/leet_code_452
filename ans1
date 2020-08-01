@@ -1,0 +1,58 @@
+def findMinArrowShots(points):
+    
+    ##Returning 0 if the input arrat is empty
+    if len(points) == 0:
+        return 0
+        
+    ##Sort the nested array    
+    points.sort()
+    
+    ##Set the initial counter to 1
+    counter = 1
+    
+    ## Get the reference point. This is the last element in your 1st nested array.
+    ref=points[0][-1]
+
+    ## Get the 2nd reference point. This is the first element in your 1st nested array.
+    ref2=points[0][0]
+
+    ## Pop the very 1st nested array
+    points.pop(0)
+
+
+    ##Loop until the points array gets empty.
+    
+    while points:
+        
+        ## If the max number of the very 1st array that we popped above is in between the current nested list's number,
+            then keep popping. (the max number will stay effective)
+        
+        if ref >= points[0][0] and ref <= points[0][-1]:
+            points.pop(0)
+
+        ## There can be another case like [[7,12],[9,10]] where '12' does not exist between 9 and 10, but number like 9 will burst both baloons.
+           To take care of this, we check if the max of the current nest list exists between the range of the previous nested list. For example, 10 exists
+           between 7 and 12.
+        
+        elif points[0][-1] >= ref2 and points[0][-1] <= ref:
+            
+            #You need to set a new reference point as the original one did not work.
+            ref= points[0][-1]
+            ref2 = points[0][0]
+            points.pop(0)
+
+        ##This is the part where any numbers in your new nested list do not belong to the previous nested lists' ranges at all.
+        So we will need to prepare another arrow.
+        
+        else:
+            ref=points[0][-1]
+            ref2 = points[0][0]
+            points.pop(0)
+            counter += 1
+
+    return counter
+
+#example case
+
+print(findMinArrowShots([[9,12],[1,10],[4,11],[8,12],[3,9],[6,9],[6,7]]
+))
