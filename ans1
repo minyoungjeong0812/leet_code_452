@@ -56,3 +56,15 @@ def findMinArrowShots(points):
 
 print(findMinArrowShots([[9,12],[1,10],[4,11],[8,12],[3,9],[6,9],[6,7]]
 ))
+
+
+################# OPTIMAL LEETCODE SOLUTION ###########
+
+    points = sorted(points, key=lambda x: x[1])
+    res, end = 0, -float('inf')
+    for interval in points:
+        if interval[0] > end:
+            res += 1
+            end = interval[1]
+    return res
+
